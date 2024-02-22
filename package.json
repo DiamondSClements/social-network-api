@@ -1,0 +1,20 @@
+{
+  "name": "social-network-api",
+  "version": "1.0.0",
+  "description": "\"NoSQL back-end project\"",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index",
+    "dev": "nodemon index",
+    "seed": "node utils/seed"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.1.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.9"
+  }
+}
