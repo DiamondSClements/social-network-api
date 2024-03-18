@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { User, Thought } = require('../models');
+const { User, Thoughts } = require('./controllers/thoughtsController.js');
 
 // GET all thoughts
 router.get('/thoughts', async (req, res) => {
   try {
-    const thoughts = await Thought.find();
+    const thoughts = await Thoughts.find();
     res.json(thoughts);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -15,7 +15,7 @@ router.get('/thoughts', async (req, res) => {
 // GET a single thought by its _id
 router.get('/thoughts/:thoughtId', async (req, res) => {
   try {
-    const thought = await Thought.findById(req.params.thoughtId);
+    const thought = await Thoughts.findById(req.params.thoughtId);
 
     if (!thought) {
       return res.status(404).json({ message: 'Thought not found' });
@@ -31,7 +31,7 @@ router.post('/thoughts', async (req, res) => {
     try {
       const { thoughtText, username, userId } = req.body;
   
-      const newThought = await Thought.create({ thoughtText, username });
+      const newThought = await Thoughts.create({ thoughtText, username });
       const user = await User.findById(userId);
   
       if (!user) {
@@ -50,7 +50,7 @@ router.post('/thoughts', async (req, res) => {
   // PUT to update a thought by its _id
 router.put('/thoughts/:thoughtId', async (req, res) => {
     try {
-      const updatedThought = await Thought.findByIdAndUpdate(
+      const updatedThought = await Thoughts.findByIdAndUpdate(
         req.params.thoughtId,
         req.body,
         { new: true }
@@ -69,7 +69,7 @@ router.put('/thoughts/:thoughtId', async (req, res) => {
   // DELETE to remove a thought by its _id
   router.delete('/thoughts/:thoughtId', async (req, res) => {
     try {
-      const deletedThought = await Thought.findByIdAndDelete(req.params.thoughtId);
+      const deletedThought = await Thoughts.findByIdAndDelete(req.params.thoughtId);
   
       if (!deletedThought) {
         return res.status(404).json({ message: 'Thought not found' });
@@ -84,7 +84,7 @@ router.put('/thoughts/:thoughtId', async (req, res) => {
   // POST to create a reaction stored in a single thought's reactions array field
   router.post('/thoughts/:thoughtId/reactions', async (req, res) => {
     try {
-      const thought = await Thought.findById(req.params.thoughtId);
+      const thought = await Thoughts.findById(req.params.thoughtId);
   
       if (!thought) {
         return res.status(404).json({ message: 'Thought not found' });
@@ -102,7 +102,7 @@ router.put('/thoughts/:thoughtId', async (req, res) => {
   // DELETE to pull and remove a reaction by the reaction's reactionId value
   router.delete('/thoughts/:thoughtId/reactions/:reactionId', async (req, res) => {
     try {
-      const thought = await Thought.findById(req.params.thoughtId);
+      const thought = await Thoughts.findById(req.params.thoughtId);
   
       if (!thought) {
         return res.status(404).json({ message: 'Thought not found' });
